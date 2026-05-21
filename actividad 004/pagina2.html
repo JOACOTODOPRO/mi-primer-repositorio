@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mayor o Menor</title>
+</head>
+<body>
+
+    <h2>Buscar Mayor o Menor</h2>
+
+    <button onclick="calcular()">Comenzar</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function calcular() {
+
+            let numeros = [];
+
+            for (let i = 0; i < 10; i++) {
+                numeros[i] = parseInt(prompt("Ingrese un número:"));
+            }
+
+            let mayor = numeros[0];
+            let menor = numeros[0];
+
+            for (let i = 0; i < numeros.length; i++) {
+
+                if (numeros[i] > mayor) {
+                    mayor = numeros[i];
+                }
+
+                if (numeros[i] < menor) {
+                    menor = numeros[i];
+                }
+            }
+
+            let opcion = parseInt(prompt("1 = menor / 2 = mayor"));
+
+            if (opcion === 1) {
+                document.getElementById("resultado").innerHTML =
+                    "El número menor es: " + menor;
+            } else {
+                document.getElementById("resultado").innerHTML =
+                    "El número mayor es: " + mayor;
+            }
+        }
+    </script>
+
+</body>
+</html>

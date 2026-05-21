@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificación de Clave</title>
+</head>
+<body>
+
+    <h2>Ingreso al Sistema</h2>
+
+    <button onclick="verificarClave()">Ingresar</button>
+
+    <script>
+        function verificarClave() {
+            let claveCorrecta = "1234";
+            let intentos = 0;
+
+            while (intentos < 3) {
+
+                let clave = prompt("Ingrese clave:");
+
+                if (clave === claveCorrecta) {
+                    alert("Acceso otorgado");
+                    break;
+                } else {
+                    intentos++;
+
+                    if (intentos === 3) {
+                        alert("Acceso denegado");
+                    } else {
+                        alert("Clave incorrecta");
+                    }
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
