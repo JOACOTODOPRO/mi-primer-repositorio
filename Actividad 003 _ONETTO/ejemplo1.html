@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Primer Programa JavaScript</title>
+  <link rel="stylesheet" href="estilos-actividad.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-title">Actividad 003 — JavaScript</p>
+      <nav class="nav-ejercicios" aria-label="Ejercicios">
+        <a href="ejemplo1.html" aria-current="page">Ej. 1 Variables</a>
+        <span>·</span>
+        <a href="ejemplo2.html">Ej. 2 DOM</a>
+        <span>·</span>
+        <a href="ejemplo3.html">Ej. 3 Funciones</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <main>
+      <h1>Mi primer script de JavaScript</h1>
+      <p class="lead">
+        Este ejercicio escribe mensajes en la consola del navegador: variables, tipos de datos y concatenación.
+      </p>
+
+      <section class="panel" aria-labelledby="pasos-titulo">
+        <h2 id="pasos-titulo" class="panel__title">Qué hacer</h2>
+        <ol>
+          <li>Pulsa <kbd>F12</kbd> (o clic derecho → Inspeccionar).</li>
+          <li>Abre la pestaña <strong>Consola</strong>.</li>
+          <li>Recarga la página si hace falta y revisa los mensajes y la tabla.</li>
+        </ol>
+      </section>
+
+      <p class="nota nota--consola">
+        Los valores de <code>nombre</code>, <code>edad</code> y <code>ciudad</code> están al inicio del script: cámbialos por los tuyos para la entrega.
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      Ejercicio 1 — Variables, <code>console.log</code>, template literals y <code>console.table</code>.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ---------- Datos de ejemplo (personalízalos) ---------- */
+      let nombre = "Ana";
+      const edad = 22;
+      var ciudad = "Lima";
+
+      const activo = true;
+      const hobbies = ["leer", "música", "código"];
+      const perfil = {
+        rol: "estudiante",
+        nivel: "intermedio",
+        remoto: true
+      };
+
+      const personas = [
+        { nombre: "Ana", edad: 22, ciudad: "Lima" },
+        { nombre: "Luis", edad: 30, ciudad: "Quito" },
+        { nombre: "María", edad: 27, ciudad: "Bogotá" },
+        { nombre: "Carlos", edad: 19, ciudad: "Madrid" }
+      ];
+
+      /* ---------- Salida por consola ---------- */
+      console.log("%cMi primer programa en JavaScript", "font-weight:bold;font-size:13px;");
+      console.log("¡Hola Mundo desde la consola!");
+
+      console.group("Variables básicas");
+      console.log("Nombre:", nombre);
+      console.log("Edad:", edad);
+      console.log("Ciudad:", ciudad);
+      console.groupEnd();
+
+      console.group("Otros tipos");
+      console.log("Booleano (activo):", activo);
+      console.log("Array (hobbies):", hobbies);
+      console.log("Objeto (perfil):", perfil);
+      console.groupEnd();
+
+      console.group("Concatenación");
+      console.log("Con + :", "Hola " + nombre + ", tienes " + edad + " años.");
+      console.log("Con template:", `Hola ${nombre}, tienes ${edad} años y vives en ${ciudad}.`);
+      console.log("Mezcla:", `¿Activo? ${activo}. Hobbies: ${hobbies.join(", ")}.`);
+      console.groupEnd();
+
+      console.log("Tabla de personas:");
+      console.table(personas);
+    })();
+  </script>
+</body>
+</html>

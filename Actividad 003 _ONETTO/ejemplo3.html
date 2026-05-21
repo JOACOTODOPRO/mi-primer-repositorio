@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funciones y Condicionales</title>
+  <link rel="stylesheet" href="estilos-actividad.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-title">Actividad 003 — JavaScript</p>
+      <nav class="nav-ejercicios" aria-label="Ejercicios">
+        <a href="ejemplo1.html">Ej. 1 Variables</a>
+        <span>·</span>
+        <a href="ejemplo2.html">Ej. 2 DOM</a>
+        <span>·</span>
+        <a href="ejemplo3.html" aria-current="page">Ej. 3 Funciones</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <main>
+      <h1>Calculadora de Edad</h1>
+      <p class="lead">
+        Usa el <strong>selector de fecha</strong> o, si lo dejas vacío, rellena <strong>año, mes y día</strong>. Luego calcula la edad o los días hasta tu próximo cumpleaños.
+      </p>
+
+      <form id="formEdad" action="#" onsubmit="return false;">
+        <fieldset>
+          <legend>Fecha de nacimiento (recomendado)</legend>
+          <label for="fechaNacimiento">Calendario</label>
+          <input type="date" id="fechaNacimiento" name="fechaNacimiento" max="">
+          <p class="ayuda">Si hay fecha aquí, el cálculo usa solo este valor (ignora los números de abajo).</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>O año, mes y día (manual)</legend>
+          <div class="fila-campos">
+            <div class="campo">
+              <label for="nacimiento">Año</label>
+              <input type="number" id="nacimiento" name="nacimiento" placeholder="2000" min="1800" max="2100" inputmode="numeric">
+            </div>
+            <div class="campo">
+              <label for="mes">Mes (1–12)</label>
+              <input type="number" id="mes" name="mes" placeholder="6" min="1" max="12" inputmode="numeric">
+            </div>
+            <div class="campo">
+              <label for="dia">Día (1–31)</label>
+              <input type="number" id="dia" name="dia" placeholder="15" min="1" max="31" inputmode="numeric">
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="acciones">
+          <button type="button" id="calcular" class="btn-primary">Calcular edad</button>
+          <button type="button" id="proximoCumple">Días hasta el próximo cumpleaños</button>
+        </div>
+      </form>
+
+      <p id="resultadoEdad" class="salida" role="status" aria-live="polite"></p>
+
+      <h2 class="historial-titulo">Últimas 5 consultas</h2>
+      <ul id="historial" aria-label="Historial de consultas"></ul>
+    </main>
+
+    <footer class="site-footer">
+      Ejercicio 3 — Funciones, condicionales, fechas e historial en memoria (se borra al recargar).
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const MAX_HISTORIAL = 5;
+      const MS_POR_DIA = 86400000;
+
+      const refs = {
+        fecha: document.getElementById("fechaNacimiento"),
+        año: document.getElementById("nacimiento"),
+        mes: document.getElementById("mes"),
+        dia: document.getElementById("dia"),
+        salida: document.getElementById("resultadoEdad"),
+        historial: document.getElementById("historial")
+      };
+
+      const bufferHistorial = [];
+
+      function iniciarFechaMaxima() {
+        refs.fecha.setAttribute("max", new Date().toISOString().slice(0, 10));
+      }
+
+      function normalizarMedianoche(fecha) {
+        const copia = new Date(fecha);
+        copia.setHours(0, 0, 0, 0);
+        return copia;
+      }
+
+      function obtenerFechaNacimiento() {
+        if (refs.fecha.value) {
+          const d = new Date(refs.fecha.value + "T12:00:00");
+          return isNaN(d.getTime()) ? null : d;
+        }
+
+        const año = Number(refs.año.value);
+        const mes = Number(refs.mes.value);
+        const dia = Number(refs.dia.value);
+
+        if (!año || !mes || !dia) {
+          return null;
+        }
+
+        const d = new Date(año, mes - 1, dia, 12, 0, 0, 0);
+        if (d.getFullYear() !== año || d.getMonth() !== mes - 1 || d.getDate() !== dia) {
+          return null;
+        }
+        return d;
+      }
+
+      function etiquetaEntrada(sufijo) {
+        const extra = sufijo ? " " + sufijo : "";
+        if (refs.fecha.value) {
+          return "Fecha:" + extra + " " + refs.fecha.value;
+        }
+        return "Y/M/D:" + extra + " " + refs.año.value + "-" + refs.mes.value + "-" + refs.dia.value;
+      }
+
+      function edadCumplidaHoy(fechaNac) {
+        const hoy = new Date();
+        let años = hoy.getFullYear() - fechaNac.getFullYear();
+        const diffMes = hoy.getMonth() - fechaNac.getMonth();
+        if (diffMes < 0 || (diffMes === 0 && hoy.getDate() < fechaNac.getDate())) {
+          años -= 1;
+        }
+        return años;
+      }
+
+      function mensajeSegúnEdad(edad) {
+        if (edad < 0) {
+          return "El año de nacimiento no puede ser futuro.";
+        }
+        if (edad > 120) {
+          return "¿Estás seguro de esa fecha? La edad supera 120 años.";
+        }
+        return "Tienes " + edad + " años (cálculo exacto según la fecha indicada).";
+      }
+
+      function calcularMensajeEdad(fechaNac) {
+        const hoy = normalizarMedianoche(new Date());
+        const nac = normalizarMedianoche(fechaNac);
+        if (nac.getTime() > hoy.getTime()) {
+          return "La fecha de nacimiento no puede ser futura.";
+        }
+        return mensajeSegúnEdad(edadCumplidaHoy(fechaNac));
+      }
+
+      function diasHastaProximoCumpleaños(fechaNac) {
+        const hoy = normalizarMedianoche(new Date());
+        const añoActual = hoy.getFullYear();
+        let proximo = normalizarMedianoche(new Date(añoActual, fechaNac.getMonth(), fechaNac.getDate()));
+
+        if (proximo.getTime() === hoy.getTime()) {
+          return 0;
+        }
+        if (proximo < hoy) {
+          proximo = normalizarMedianoche(new Date(añoActual + 1, fechaNac.getMonth(), fechaNac.getDate()));
+        }
+        return Math.ceil((proximo - hoy) / MS_POR_DIA);
+      }
+
+      function mensajeCumpleaños(fechaNac) {
+        const d = diasHastaProximoCumpleaños(fechaNac);
+        if (d === 0) {
+          return "¡Hoy es tu cumpleaños! Felicidades.";
+        }
+        return "Faltan " + d + " día(s) para tu próximo cumpleaños.";
+      }
+
+      function registrarHistorial(entrada, resultado) {
+        bufferHistorial.unshift({ entrada: entrada, resultado: resultado });
+        if (bufferHistorial.length > MAX_HISTORIAL) {
+          bufferHistorial.length = MAX_HISTORIAL;
+        }
+
+        refs.historial.innerHTML = "";
+        bufferHistorial.forEach(function (item) {
+          const li = document.createElement("li");
+          li.innerHTML = "<strong>Entrada</strong> " + escapeHtml(item.entrada) +
+            " <strong>Resultado</strong> " + escapeHtml(item.resultado);
+          refs.historial.appendChild(li);
+        });
+      }
+
+      function escapeHtml(texto) {
+        const div = document.createElement("div");
+        div.textContent = texto;
+        return div.innerHTML;
+      }
+
+      function mostrarError(mensaje) {
+        refs.salida.textContent = mensaje;
+      }
+
+      iniciarFechaMaxima();
+
+      document.getElementById("calcular").addEventListener("click", function () {
+        const fecha = obtenerFechaNacimiento();
+        if (!fecha) {
+          mostrarError("Indica una fecha válida en el calendario o completa año, mes y día correctos.");
+          return;
+        }
+        const resultado = calcularMensajeEdad(fecha);
+        refs.salida.textContent = resultado;
+        registrarHistorial(etiquetaEntrada(""), resultado);
+      });
+
+      document.getElementById("proximoCumple").addEventListener("click", function () {
+        const fecha = obtenerFechaNacimiento();
+        if (!fecha) {
+          mostrarError("Indica una fecha válida en el calendario o completa año, mes y día correctos.");
+          return;
+        }
+
+        const hoy = normalizarMedianoche(new Date());
+        const nac = normalizarMedianoche(fecha);
+        if (nac.getTime() > hoy.getTime()) {
+          mostrarError("La fecha de nacimiento no puede ser futura.");
+          return;
+        }
+
+        const msg = mensajeCumpleaños(fecha);
+        refs.salida.textContent = msg;
+        registrarHistorial(etiquetaEntrada("(cumple)"), msg);
+      });
+    })();
+  </script>
+</body>
+</html>

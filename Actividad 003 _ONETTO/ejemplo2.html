@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interacción con JavaScript</title>
+  <link rel="stylesheet" href="estilos-actividad.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-title">Actividad 003 — JavaScript</p>
+      <nav class="nav-ejercicios" aria-label="Ejercicios">
+        <a href="ejemplo1.html">Ej. 1 Variables</a>
+        <span>·</span>
+        <a href="ejemplo2.html" aria-current="page">Ej. 2 DOM</a>
+        <span>·</span>
+        <a href="ejemplo3.html">Ej. 3 Funciones</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <main>
+      <h1>Interacción con JavaScript</h1>
+      <p class="lead">
+        El botón principal cambia el mensaje y aplica estilo azul y negrita. Los demás botones modifican el aspecto del mismo texto; <strong>Restablecer</strong> vuelve al estado inicial.
+      </p>
+
+      <p id="resultado" class="demo-texto" role="status" aria-live="polite">Esperando clic...</p>
+
+      <section aria-label="Acciones principales">
+        <div class="grupo-botones">
+          <button type="button" id="miBoton" class="btn-primary">Haz clic aquí</button>
+        </div>
+        <p class="meta" id="contadorClics">Clics en el botón principal: 0</p>
+      </section>
+
+      <section class="panel" aria-labelledby="estilos-titulo">
+        <h2 id="estilos-titulo" class="panel__title">Cambiar apariencia del texto</h2>
+        <div class="grupo-botones grupo-botones--secundario" id="grupoEstilos">
+          <button type="button" data-estilo="grande">Texto grande</button>
+          <button type="button" data-estilo="fondo">Fondo amarillo</button>
+          <button type="button" data-estilo="italica">Cursiva</button>
+          <button type="button" data-estilo="subrayado">Subrayado</button>
+          <button type="button" id="btnRestablecer">Restablecer</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Ejercicio 2 — <code>getElementById</code>, <code>addEventListener</code> y estilos en línea.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const parrafo = document.getElementById("resultado");
+      const botonPrincipal = document.getElementById("miBoton");
+      const etiquetaContador = document.getElementById("contadorClics");
+      const grupoEstilos = document.getElementById("grupoEstilos");
+      const botonRestablecer = document.getElementById("btnRestablecer");
+
+      const TEXTO_ORIGINAL = "Esperando clic...";
+      const MENSAJE_CLIC = "¡Has hecho clic en el botón!";
+
+      const estilosEnLinea = {
+        color: "",
+        fontWeight: "",
+        fontSize: "",
+        backgroundColor: "",
+        fontStyle: "",
+        textDecoration: ""
+      };
+
+      let clicsPrincipal = 0;
+
+      function aplicarClicPrincipal() {
+        parrafo.textContent = MENSAJE_CLIC;
+        parrafo.style.color = "blue";
+        parrafo.style.fontWeight = "bold";
+      }
+
+      function actualizarContador() {
+        etiquetaContador.textContent = "Clics en el botón principal: " + clicsPrincipal;
+      }
+
+      function limpiarEstilos() {
+        Object.keys(estilosEnLinea).forEach(function (prop) {
+          parrafo.style[prop] = estilosEnLinea[prop];
+        });
+      }
+
+      function restablecerTodo() {
+        parrafo.textContent = TEXTO_ORIGINAL;
+        limpiarEstilos();
+        clicsPrincipal = 0;
+        actualizarContador();
+      }
+
+      const efectosPorTipo = {
+        grande: function () {
+          parrafo.style.fontSize = "1.75rem";
+        },
+        fondo: function () {
+          parrafo.style.backgroundColor = "#fff3bf";
+        },
+        italica: function () {
+          parrafo.style.fontStyle = "italic";
+        },
+        subrayado: function () {
+          parrafo.style.textDecoration = "underline";
+        }
+      };
+
+      botonPrincipal.addEventListener("click", function () {
+        clicsPrincipal += 1;
+        actualizarContador();
+        aplicarClicPrincipal();
+      });
+
+      grupoEstilos.addEventListener("click", function (evento) {
+        const objetivo = evento.target;
+        if (objetivo.tagName !== "BUTTON" || objetivo.id === "btnRestablecer") {
+          return;
+        }
+        const tipo = objetivo.getAttribute("data-estilo");
+        const fn = efectosPorTipo[tipo];
+        if (fn) {
+          fn();
+        }
+      });
+
+      botonRestablecer.addEventListener("click", restablecerTodo);
+    })();
+  </script>
+</body>
+</html>
