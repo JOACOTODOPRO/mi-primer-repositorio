@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SPA Simple con JavaScript</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      background:#f4f4f4;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+    }
+
+    header{
+      background:#1e3a5f;
+      color:white;
+      padding:20px;
+      text-align:center;
+    }
+
+    nav{
+      background:#16324f;
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      padding:15px;
+      flex-wrap:wrap;
+    }
+
+    nav button{
+      padding:10px 20px;
+      border:none;
+      background:#ffffff;
+      color:#16324f;
+      cursor:pointer;
+      border-radius:5px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    nav button:hover{
+      background:#ffd166;
+    }
+
+    main{
+      flex:1;
+      padding:30px;
+    }
+
+    .card{
+      background:white;
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+
+    footer{
+      background:#1e3a5f;
+      color:white;
+      text-align:center;
+      padding:15px;
+    }
+
+    ul{
+      margin-top:15px;
+      padding-left:20px;
+    }
+
+    li{
+      margin-bottom:8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor principal -->
+  <div id="app"></div>
+
+  <script>
+
+    // ==========================================
+    // CREACIÓN DE LA ESTRUCTURA BASE CON JS
+    // ==========================================
+
+    const app = document.getElementById("app");
+
+    // Header
+    const header = document.createElement("header");
+    header.innerHTML = `
+      <h1>Mi Página Dinámica</h1>
+      <p>SPA simple usando JavaScript</p>
+    `;
+
+    // Nav
+    const nav = document.createElement("nav");
+
+    // Main (contenido dinámico)
+    const main = document.createElement("main");
+    main.id = "contenido";
+
+    // Footer
+    const footer = document.createElement("footer");
+    footer.innerHTML = `
+      <p>© 2026 - Proyecto JavaScript</p>
+    `;
+
+    // Agregamos todo al body
+    app.appendChild(header);
+    app.appendChild(nav);
+    app.appendChild(main);
+    app.appendChild(footer);
+
+
+    // ==========================================
+    // ARRAY DE SECCIONES
+    // ==========================================
+
+    const secciones = ["Inicio", "Productos", "Servicios", "Contacto"];
+
+
+    // ==========================================
+    // CREACIÓN DE BOTONES CON FOR
+    // ==========================================
+
+    for(let i = 0; i < secciones.length; i++){
+
+      const boton = document.createElement("button");
+      boton.textContent = secciones[i];
+
+      // Evento click
+      boton.addEventListener("click", function(){
+        cambiarSeccion(secciones[i]);
+      });
+
+      nav.appendChild(boton);
+    }
+
+
+    // ==========================================
+    // FUNCIÓN PARA CAMBIAR CONTENIDO
+    // ==========================================
+
+    function cambiarSeccion(seccion){
+
+      // Limpiamos el contenido anterior
+      main.innerHTML = "";
+
+      // Creamos una tarjeta
+      const card = document.createElement("div");
+      card.className = "card";
+
+      // ==========================================
+      // SWITCH PARA CADA SECCIÓN
+      // ==========================================
+
+      switch(seccion){
+
+        case "Inicio":
+
+          card.innerHTML = `
+            <h2>Bienvenido</h2>
+            <p>Esta es la sección de inicio.</p>
+          `;
+
+        break;
+
+
+        case "Productos":
+
+          // ARRAY de productos
+          const productos = [
+            "Notebook",
+            "Mouse",
+            "Teclado",
+            "Monitor"
+          ];
+
+          let listaProductos = "<h2>Productos</h2>";
+          listaProductos += "<ul>";
+
+          // FOR para recorrer productos
+          for(let i = 0; i < productos.length; i++){
+            listaProductos += `<li>${productos[i]}</li>`;
+          }
+
+          listaProductos += "</ul>";
+
+          card.innerHTML = listaProductos;
+
+        break;
+
+
+        case "Servicios":
+
+          let contenidoServicios = `
+            <h2>Servicios</h2>
+            <p>Ofrecemos los siguientes servicios:</p>
+            <ul>
+          `;
+
+          // ==========================================
+          // WHILE
+          // ==========================================
+
+          const servicios = [
+            "Diseño web",
+            "Programación",
+            "Soporte técnico",
+            "Marketing digital"
+          ];
+
+          let contador = 0;
+
+          while(contador < servicios.length){
+
+            contenidoServicios += `
+              <li>${servicios[contador]}</li>
+            `;
+
+            contador++;
+          }
+
+          contenidoServicios += "</ul>";
+
+          card.innerHTML = contenidoServicios;
+
+        break;
+
+
+        case "Contacto":
+
+          // ==========================================
+          // IF
+          // ==========================================
+
+          let horario = new Date().getHours();
+          let mensaje = "";
+
+          if(horario < 12){
+            mensaje = "Buenos días";
+          } else if(horario < 19){
+            mensaje = "Buenas tardes";
+          } else {
+            mensaje = "Buenas noches";
+          }
+
+          card.innerHTML = `
+            <h2>Contacto</h2>
+            <p>${mensaje}, puedes escribirnos a:</p>
+            <p><strong>correo@empresa.com</strong></p>
+          `;
+
+        break;
+
+
+        default:
+
+          card.innerHTML = `
+            <h2>Error</h2>
+            <p>Sección no encontrada.</p>
+          `;
+      }
+
+      // Agregamos la tarjeta al main
+      main.appendChild(card);
+    }
+
+
+    // ==========================================
+    // CARGA INICIAL
+    // ==========================================
+
+    cambiarSeccion("Inicio");
+
+  </script>
+
+</body>
+</html>
+```
