@@ -1,0 +1,49 @@
+Actúa como un desarrollador Senior TypeScript.
+
+Necesito resolver un ejercicio académico llamado "Sistema de Gestión de Biblioteca".
+
+Requisitos:
+
+1. Crear una interface Libro con:
+- titulo:string
+- autor:string
+- isbn:string
+- fechaPrestamo:string
+- fechaDevolucionPrevista:string
+- tipoUsuario:"estudiante" | "profesor" | "general"
+
+2. Crear una interface ReporteMulta con:
+- titulo:string
+- diasRetraso:number
+- multa:number
+- tipoUsuario:string
+
+3. Implementar:
+- calcularDiasRetraso()
+- calcularMulta()
+- procesarBiblioteca()
+
+4. Reglas:
+- estudiante = $50 por día
+- profesor = $30 por día
+- general = $100 por día
+
+5. Si no existe retraso la multa debe ser 0.
+
+6. Crear al menos 4 libros de prueba.
+
+7. Generar un reporte por consola mostrando:
+- título
+- autor
+- usuario
+- días de retraso
+- multa
+
+8. Mostrar estadísticas:
+- total multas
+- cantidad de libros con retraso
+- promedio días de retraso
+
+9. Utilizar TypeScript estricto.
+
+Devuelve un único archivo biblioteca.ts completamente funcional y comentado.
