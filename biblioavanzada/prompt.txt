@@ -1,0 +1,41 @@
+Actúa como un desarrollador Senior TypeScript.
+
+Necesito una versión avanzada del Sistema de Gestión de Biblioteca.
+
+Requisitos:
+
+1. Crear interface Libro:
+- titulo
+- autor
+- isbn
+- fechaPrestamo
+- fechaDevolucionPrevista
+- tipoUsuario ("estudiante" | "profesor" | "general")
+- categoria ("ficcion" | "tecnico" | "historia" | "ciencia")
+
+2. Crear interface ReporteMulta.
+
+3. Implementar:
+- calcularDiasRetraso()
+- calcularMulta()
+- procesarBiblioteca()
+- renovarPrestamo()
+
+4. Reglas de multa:
+- estudiante = $50 por día
+- profesor = $30 por día
+- general = $100 por día
+
+5. Descuento especial:
+- Si el retraso es menor o igual a 7 días aplicar 50% de descuento sobre la multa.
+
+6. Estadísticas:
+- cantidad de libros por tipo de usuario
+- promedio de días de retraso
+- total de multas por categoría
+
+7. Crear mínimo 6 libros de prueba.
+
+8. Mostrar reporte detallado y estadísticas.
+
+Entregar un único archivo biblioteca-avanzada.ts completamente funcional.
