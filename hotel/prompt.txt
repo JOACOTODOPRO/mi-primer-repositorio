@@ -1,0 +1,46 @@
+Actúa como un desarrollador Senior TypeScript.
+
+Necesito resolver un ejercicio académico llamado Sistema de Gestión de Reservas Hoteleras.
+
+Debes:
+
+- Crear interfaces Reserva y ReporteReserva.
+- Calcular días de estadía.
+- Calcular costo base según habitación y temporada.
+- Calcular costo de servicios adicionales.
+- Aplicar descuentos según tipo de huésped.
+- Generar un reporte completo.
+
+Precios:
+
+Temporada alta:
+simple=120
+doble=180
+suite=350
+
+Temporada baja:
+simple=80
+doble=120
+suite=250
+
+Servicios:
+desayuno=25
+wifi=10
+spa=50
+estacionamiento=15
+lavanderia=20
+
+Descuentos:
+regular=0%
+vip=15%
+corporativo=10%
+
+Generar mínimo 4 reservas de prueba.
+
+Mostrar:
+- detalle por reserva
+- ingresos totales
+- cantidad de reservas
+- estadísticas por tipo de habitación
+
+Entregar un único archivo hotel.ts completo y comentado.
