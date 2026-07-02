@@ -1,0 +1,21 @@
+"Actúa como un Desarrollador Senior de TypeScript. Necesito resolver un sistema de validación de datos síncrono para un formulario de contacto e-commerce basado estrictamente en una interfaz predefinida llamada FormularioContacto.
+
+Requerimientos de Arquitectura de Código:
+
+Tipado Estricto: Se prohíbe explícitamente el uso del tipo any. Todas las variables auxiliares, parámetros y retornos de función deben estar fuertemente tipados.
+
+Modularidad y Legibilidad: Implementar una función principal validarFormulario(form: FormularioContacto): void que encapsule la lógica de negocio.
+
+Manejo de Estados/Acumuladores: Diseñar una estrategia basada en arrays dinámicos para acumular los errores detectados de forma independiente por cada registro evaluado, permitiendo un reporte detallado al final de cada iteración.
+
+Algoritmos de Validación Específicos:
+
+Sanitización de strings (eliminación de espacios en blanco redundantes con .trim()).
+
+Tratamiento de cadenas telefónicas eliminando caracteres no numéricos mediante expresiones regulares (/[\s-]/g) antes de evaluar su longitud neta.
+
+Validación lógica de existencia del carácter @ mediante métodos nativos de manipulación de strings.
+
+Formato de Salida por Consola: Respetar de manera estricta el uso de indicadores visuales (✔ para éxito y X para fallos) y las cadenas de texto exactas requeridas para los reportes finales (éxito vs. formulario incompleto).
+
+Genera un código limpio, estructurado con comentarios de lógica de control, optimizado para ejecutarse de manera secuencial sobre un arreglo de datos de prueba."
